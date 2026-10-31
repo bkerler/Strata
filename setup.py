@@ -5727,6 +5727,10 @@ def install_build_tools(gpu, yes):
                  "install them with your distribution's packages (Arch: pacman -S base-devel cuda; nvcc is found on "
                  "PATH, in /usr/local/cuda* and in /opt/cuda*), then run it again")
         if not have_cc:
+            if apt:
+		run(["sudo", "apt-get", "install", "-y", "build-essential"])
+            else:
+                run(["sudo", "dnf", "install", "-y", "gcc-c++"])
         if nvcc is None or cuda_v < need_cuda:
             osr = dict(line.split("=", 1) for line in open("/etc/os-release").read().splitlines() if "=" in line)
             repo = cuda_apt_repo(osr)
@@ -5741,10 +5745,6 @@ def install_build_tools(gpu, yes):
             run(["sudo", "apt-get", "update"])
             if repo.startswith("ubuntu"):                  # as before: 13.0, and a failed install stops setup here
                 run(["sudo", "apt-get", "install", "-y", "cuda-toolkit-13-0"])
-            if apt:
-                run(["sudo", "apt-get", "install", "-y", "build-essential"])
-            else:
-                run(["sudo", "dnf", "install", "-y", "gcc-c++"])
         if nvcc is None or cuda_v < need_cuda:
             if apt:
                 repo = cuda_apt_repo(osr)
