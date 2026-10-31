@@ -5728,7 +5728,7 @@ def install_build_tools(gpu, yes):
                  "PATH, in /usr/local/cuda* and in /opt/cuda*), then run it again")
         if not have_cc:
             if apt:
-		run(["sudo", "apt-get", "install", "-y", "build-essential"])
+                run(["sudo", "apt-get", "install", "-y", "build-essential"])
             else:
                 run(["sudo", "dnf", "install", "-y", "gcc-c++"])
         if nvcc is None or cuda_v < need_cuda:
